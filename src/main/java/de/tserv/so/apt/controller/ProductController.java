@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.tserv.so.apt.db.ProductRepository;
 import de.tserv.so.apt.entity.Product;
+import de.tserv.so.apt.exceptions.ResourceNotFoundException;
 
 @RestController
 public class ProductController {
@@ -29,7 +30,7 @@ public class ProductController {
     @GetMapping("/products/{id}")
     Product one(@PathVariable Long id) {
         return repository.findById(id)
-            .orElseThrow(); // TODO implement resource not found exception
+            .orElseThrow(() -> new ResourceNotFoundException(id, "products"));
     }
 
     @PostMapping("/products") 
@@ -41,7 +42,7 @@ public class ProductController {
     Product replaceProduct(@RequestBody Product newProduct, @PathVariable Long id) {
         return repository.findById(id)
             .map(product -> {
-                product.setProduct_external_id(newProduct.getProduct_external_id());
+                product.setProductExternalId(newProduct.getProductExternalId());
                 product.setProduct_link(newProduct.getProduct_link());
                 product.setProduct_name(newProduct.getProduct_name());
                 product.setVersions(newProduct.getVersions());

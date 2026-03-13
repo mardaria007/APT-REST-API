@@ -39,26 +39,29 @@ public class VersionController {
         if (newVersion.getProduct() == null) {
             throw new MissingReferenceException("Product");
         }
-        if (newVersion.getStatus() == null) {
-            throw new MissingReferenceException("Status"); 
-        }
-        
+
         return repository.save(newVersion);
     }
 
     @PutMapping("/versions/{id}")
     Version replaceVersion(@RequestBody Version newVersion, @PathVariable Long id) {
+
+        if (newVersion.getProduct() == null) {
+            throw new MissingReferenceException("Product");
+        }
+        
         return repository.findById(id)
             .map(version -> {
                 version.setDescription(newVersion.getDescription());
-                version.setProduct(newVersion.getProduct());
                 version.setStatus(newVersion.getStatus());
+                version.setProduct(newVersion.getProduct());
+                version.setArtifacts(newVersion.getArtifacts());
                 version.setVersion(newVersion.getVersion());
                 return repository.save(version);
             })
             .orElseGet(() -> {
                 return repository.save(newVersion);
-            });
+            });  
     }
 
     @DeleteMapping("/versions/{id}")

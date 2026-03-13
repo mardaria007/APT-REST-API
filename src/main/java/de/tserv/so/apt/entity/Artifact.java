@@ -1,62 +1,57 @@
 package de.tserv.so.apt.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import de.tserv.so.apt.SpringConfiguration;
+import de.tserv.so.apt.db.VersionRepository;
+import de.tserv.so.apt.util.ArtifactDeserializer;
+import de.tserv.so.apt.util.ArtifactSerializer;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name = "artifact")
+@JsonSerialize(using = ArtifactSerializer.class)
+@JsonDeserialize(using = ArtifactDeserializer.class)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "artifactType", discriminatorType = DiscriminatorType.STRING)
 public class Artifact {
     private @Id
     @Column(name = "artifact_id")
     @GeneratedValue Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "artifact_type")
-    private ArtifactType artifact_type;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private Version version;
 
-    @ManyToMany(mappedBy = "artifacts", fetch = FetchType.EAGER)
-    private List<Version> versions = new ArrayList<>();
-
-    private Long transport_id;
     private String description;
 
     public Artifact() {}
 
-    public Artifact(String description, ArtifactType artifact_type, Long transport_id, List<Version> versions) {
+    public Artifact(Long versionId, String description) {
+        VersionRepository repo = (VersionRepository) SpringConfiguration.contextProvider().getApplicationContext().getBean("versionRepository");
+        this.version = repo.findById(versionId).orElseThrow();
         this.description = description;
-        this.artifact_type = artifact_type;
-        this.transport_id = transport_id;
-        this.versions = versions;
     }
 
     public Long getId() {
         return id;
     }
 
-    @JsonManagedReference(value = "artifact_type-artifact")
-    public ArtifactType getArtifactType() {
-        return artifact_type;
+   public Version getVersion() {
+        return version;
     }
-
-    public List<Version> getVersions() {
-        return versions;
-    }
-
-    public Long getTransport_id() {
-        return transport_id;
+    
+    public void setVersion(Version version) {
+        this.version = version;
     }
 
     public String getDescription() {
@@ -67,17 +62,6 @@ public class Artifact {
         this.id = id;
     }
 
-    public void setVersions(List<Version> versions) {
-        this.versions = versions;
-    }
-
-    public void setArtifactType(ArtifactType artifact_type) {
-        this.artifact_type = artifact_type;
-    }
-
-    public void setTransport_id(Long transport_id) {
-        this.transport_id = transport_id;
-    }
 
     public void setDescription(String description) {
         this.description = description;
@@ -85,7 +69,7 @@ public class Artifact {
 
     @Override
     public String toString() {
-        return String.format("Artifact[id=%d, description='%s', transport_id=%d, artifact_type=%s]", id, description, transport_id, artifact_type.getArtifactType());
+        return String.format("Artifact[id=%d, description='%s']", id, description);
     }
 
     @Override
@@ -93,10 +77,10 @@ public class Artifact {
         if (o == this) return true;
         if (!(o instanceof Artifact)) return false;
         Artifact a = (Artifact) o;
-        return a.getId().equals(this.id) && a.getDescription().equals(this.description) && a.getTransport_id().equals(this.transport_id) && a.getArtifactType().equals(this.artifact_type);
+        return a.getId().equals(this.id) && a.getDescription().equals(this.description);
     }
 
     public int hashCode() {
-        return id.hashCode() + description.hashCode() + transport_id.hashCode() + artifact_type.hashCode();
+        return id.hashCode() + description.hashCode();
     }
 }

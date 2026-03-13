@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.tserv.so.apt.db.ArtifactRepository;
+import de.tserv.so.apt.entity.ABAP_Transport;
 import de.tserv.so.apt.entity.Artifact;
+import de.tserv.so.apt.exceptions.ResourceNotFoundException;
 
 @RestController
 public class ArtifactController {
@@ -30,7 +32,7 @@ public class ArtifactController {
     @GetMapping("/artifacts/{id}")
     Artifact one(@PathVariable Long id) {
         return repository.findById(id).
-            orElseThrow(); // TODO implement Not Found Exception
+            orElseThrow(() -> new ResourceNotFoundException(id, "artifacts"));
     }
 
     @PostMapping("/artifacts")
@@ -42,10 +44,17 @@ public class ArtifactController {
     Artifact replaceArtifact(@RequestBody Artifact newArtifact, @PathVariable Long id) {
         return repository.findById(id)
             .map(artifact -> {
-                artifact.setArtifactType(newArtifact.getArtifactType());
                 artifact.setDescription(newArtifact.getDescription());
-                artifact.setTransport_id(newArtifact.getTransport_id());
-                artifact.setVersions(newArtifact.getVersions());
+                artifact.setVersion(newArtifact.getVersion());
+
+                if (artifact instanceof ABAP_Transport) {
+                    ((ABAP_Transport)artifact).setAssignmentType(((ABAP_Transport)newArtifact).getAssignmentType());
+                    ((ABAP_Transport)artifact).setDeploymentCategory(((ABAP_Transport)newArtifact).getDeploymentCategory());
+                    ((ABAP_Transport)artifact).setTransportType(((ABAP_Transport)newArtifact).getTransportType());
+                    ((ABAP_Transport)artifact).setExternal_id(((ABAP_Transport)newArtifact).getExternal_id());
+
+                    return repository.save((ABAP_Transport)artifact);
+                }
                 return repository.save(artifact);
             })
             .orElseGet(() -> {
