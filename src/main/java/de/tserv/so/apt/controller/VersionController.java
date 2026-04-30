@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.tserv.so.apt.db.VersionRepository;
 import de.tserv.so.apt.entity.Version;
+import de.tserv.so.apt.enums.Status;
 import de.tserv.so.apt.exceptions.MissingReferenceException;
 import de.tserv.so.apt.exceptions.ResourceNotFoundException;
 
@@ -24,12 +25,12 @@ public class VersionController {
     }
 
     @GetMapping("/versions") 
-    List<Version> all() {
+    public List<Version> all() {
         return repository.findAll();
     }
 
     @GetMapping("/versions/{id}")
-    Version one(@PathVariable Long id) {
+    public Version one(@PathVariable Long id) {
         return repository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException(id, "versions"));
     }
@@ -41,6 +42,38 @@ public class VersionController {
         }
 
         return repository.save(newVersion);
+    }
+
+    @GetMapping("/versions/{id}/publish") 
+    void publishVersion(@PathVariable Long id) {
+        repository.findById(id)
+            .map(version -> {
+                if (version.getStatus() == Status.IN_PROCESS) {
+                    version.setDescription(version.getDescription());
+                    version.setProduct(version.getProduct());
+                    version.setArtifacts(version.getArtifacts());
+                    version.setVersion(version.getVersion());
+                    version.setStatus(Status.RELEASED);
+                }
+                return repository.save(version);
+            })
+            .orElseThrow(() -> new ResourceNotFoundException(id, "versions"));
+    }
+
+    @GetMapping("/versions/{id}/return") 
+    void returnVersion(@PathVariable Long id) {
+        repository.findById(id)
+            .map(version -> {
+                if (version.getStatus() == Status.IN_PROCESS) {
+                    version.setStatus(Status.DEPRECATED);
+                    version.setDescription(version.getDescription());
+                    version.setProduct(version.getProduct());
+                    version.setArtifacts(version.getArtifacts());
+                    version.setVersion(version.getVersion());
+                }; 
+                return repository.save(version);
+            })
+            .orElseThrow(() -> new ResourceNotFoundException(id, "versions"));
     }
 
     @PutMapping("/versions/{id}")

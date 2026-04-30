@@ -27,13 +27,16 @@ public class ProductDeserializer  extends StdDeserializer<Product> {
         String productName = node.get("productName").asString(); 
         String productLink = node.get("productLink").asString(); 
 
-        JsonNode versionsNode = node.get("versions"); 
-        List<Long> versions = new ArrayList<>(); 
+        if (node.get("versions") != null) {
+            JsonNode versionsNode = node.get("versions"); 
+            List<Long> versions = new ArrayList<>(); 
+            versionsNode.forEach(version -> {
+                versions.add(version.asLong());
+            });
 
-        versionsNode.forEach(version -> {
-            versions.add(version.asLong());
-        });
+            return new Product(productExternalId, productName, productLink, versions);
+        }
 
-        return new Product(productExternalId, productName, productLink, versions);
+        return new Product(productExternalId, productName, productLink);
     }
 }

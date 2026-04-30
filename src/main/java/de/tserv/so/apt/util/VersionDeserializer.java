@@ -25,19 +25,23 @@ public class VersionDeserializer extends StdDeserializer<Version> {
     public Version deserialize(JsonParser p, DeserializationContext ctxt) throws JacksonException {
         JsonNode node = p.readValueAsTree();
         
-        Status status = Status.valueOf(node.get("status").asString());
         Long productId = node.get("product").asLong();
-        JsonNode artifacts = node.get("artifacts");
-
-        List<Long> artifactsid = new ArrayList<>();
-        artifacts.forEach(artifact -> {
-            artifactsid.add(artifact.asLong());
-        });
-
         String description = node.get("description").asString();
         String version = node.get("version").asString();
 
-        return new Version(version, description, productId, status, artifactsid);
+        if (node.get("status") != null && node.get("artifacts") != null) {
+            Status status = Status.valueOf(node.get("status").asString());
+            JsonNode artifacts = node.get("artifacts");
+            List<Long> artifactsid = new ArrayList<>();
+            artifacts.forEach(artifact -> {
+                artifactsid.add(artifact.asLong());
+            });
+
+            return new Version(version, description, productId, status, artifactsid);
+        }
+
+        return new Version(version, description, productId);
+
     }
     
     

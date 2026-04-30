@@ -1,7 +1,7 @@
 package de.tserv.so.apt.enums;
 
 public enum TransportType {
-    WORKEBENCH, 
+    WORKBENCH, 
     CONFIGURATION,
     TRANSPORT_OF_COPIES
 }

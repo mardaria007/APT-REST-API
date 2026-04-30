@@ -3,12 +3,14 @@ package de.tserv.so.apt.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import de.tserv.so.apt.SpringConfiguration;
 import de.tserv.so.apt.db.ArtifactRepository;
 import de.tserv.so.apt.db.ProductRepository;
 import de.tserv.so.apt.enums.Status;
 import de.tserv.so.apt.util.VersionDeserializer;
-import de.tserv.so.apt.util.VersionSerializer;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,11 +21,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import tools.jackson.databind.annotation.JsonDeserialize;
-import tools.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name = "version")
-@JsonSerialize(using = VersionSerializer.class)
 @JsonDeserialize(using = VersionDeserializer.class)
 public class Version {
     private @Id
@@ -33,9 +33,11 @@ public class Version {
     private Status status;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "version", cascade = CascadeType.ALL)
     private List<Artifact> artifacts = new ArrayList<>();
 
@@ -91,6 +93,17 @@ public class Version {
     }
 
     public Version() {}
+
+    public Version(String version, String description, Long product) {
+        this.version = version;
+        this.description = description; 
+        ProductRepository prepo = (ProductRepository) SpringConfiguration.contextProvider()
+                                                        .getApplicationContext()
+                                                        .getBean("productRepository");
+        this.product = prepo.findById(product).orElseThrow();
+        this.status = Status.IN_PROCESS;
+        this.artifacts = new ArrayList<Artifact>();
+    }
 
     public Version(String version, String description, Long product, Status status, List<Long> artifacts) {
         this.version = version;

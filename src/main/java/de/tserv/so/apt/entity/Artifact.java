@@ -1,9 +1,10 @@
 package de.tserv.so.apt.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import de.tserv.so.apt.SpringConfiguration;
 import de.tserv.so.apt.db.VersionRepository;
 import de.tserv.so.apt.util.ArtifactDeserializer;
-import de.tserv.so.apt.util.ArtifactSerializer;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
@@ -16,11 +17,9 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import tools.jackson.databind.annotation.JsonDeserialize;
-import tools.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name = "artifact")
-@JsonSerialize(using = ArtifactSerializer.class)
 @JsonDeserialize(using = ArtifactDeserializer.class)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "artifactType", discriminatorType = DiscriminatorType.STRING)
@@ -29,6 +28,7 @@ public class Artifact {
     @Column(name = "artifact_id")
     @GeneratedValue Long id;
 
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     private Version version;
 

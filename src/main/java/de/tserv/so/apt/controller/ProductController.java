@@ -23,12 +23,12 @@ public class ProductController {
     }
 
     @GetMapping("/products") 
-    List<Product> all() {
+    public List<Product> all() {
         return repository.findAll(); 
     }
 
     @GetMapping("/products/{id}")
-    Product one(@PathVariable Long id) {
+    public Product one(@PathVariable Long id) {
         return repository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException(id, "products"));
     }
@@ -43,8 +43,8 @@ public class ProductController {
         return repository.findById(id)
             .map(product -> {
                 product.setProductExternalId(newProduct.getProductExternalId());
-                product.setProduct_link(newProduct.getProduct_link());
-                product.setProduct_name(newProduct.getProduct_name());
+                product.setProductLink(newProduct.getProductLink());
+                product.setProductName(newProduct.getProductName());
                 product.setVersions(newProduct.getVersions());
                 return repository.save(product);
             })

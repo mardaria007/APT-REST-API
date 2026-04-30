@@ -25,9 +25,14 @@ public class LoadDatabase {
             ArtifactRepository artifactRepository) {
         return args -> {
             productRepository.save(new Product("test.app", "test app", "link", new ArrayList<>()));
+            productRepository.save(new Product("test.app2", "test app 2", "link 2", new ArrayList<>()));
             versionRepository.save(new Version("1.0.0", "Test", 1L, Status.IN_PROCESS, new ArrayList<>()));
+            versionRepository.save(new Version("2.0.0", "Prod", 1L, Status.IN_PROCESS, new ArrayList<>()));
+            versionRepository.save(new Version("1.1.0", "Prod", 2L, Status.IN_PROCESS, new ArrayList<>()));
             artifactRepository.save(new Artifact(1L, "test Artifact"));
             artifactRepository.save(new Artifact(1L, "test Artifact 2"));
+            artifactRepository.save(new Artifact(2L, "test Artifact for Prod"));
+            artifactRepository.save(new Artifact(2L, "test Artifact for Prod 2"));
 
         };
     }

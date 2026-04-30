@@ -13,7 +13,7 @@ public class ABAP_Transport extends Artifact {
     private AssignmentType assignmentType; 
     private TransportType transportType; 
 
-    private Long external_id; 
+    private Long externalId; 
 
     public ABAP_Transport() {}
 
@@ -23,7 +23,7 @@ public class ABAP_Transport extends Artifact {
         this.deploymentCategory = deploymentCategory;
         this.assignmentType = assignmentType;
         this.transportType = transportType;
-        this.external_id = external_id;
+        this.externalId = external_id;
     }
 
     public DeploymentCategory getDeploymentCategory() {
@@ -50,18 +50,18 @@ public class ABAP_Transport extends Artifact {
         this.transportType = transportType;
     }
 
-    public Long getExternal_id() {
-        return external_id;
+    public Long getExternalId() {
+        return externalId;
     }
 
-    public void setExternal_id(Long external_id) {
-        this.external_id = external_id;
+    public void setExternalId(Long external_id) {
+        this.externalId = external_id;
     }
 
     @Override
     public String toString() {
         return "ABAP_Transport [deploymentCategory=" + deploymentCategory + ", assignmentType=" + assignmentType
-                + ", transportType=" + transportType + ", external_id=" + external_id + "]";
+                + ", transportType=" + transportType + ", externalId=" + externalId + "]";
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ABAP_Transport extends Artifact {
         result = prime * result + ((deploymentCategory == null) ? 0 : deploymentCategory.hashCode());
         result = prime * result + ((assignmentType == null) ? 0 : assignmentType.hashCode());
         result = prime * result + ((transportType == null) ? 0 : transportType.hashCode());
-        result = prime * result + ((external_id == null) ? 0 : external_id.hashCode());
+        result = prime * result + ((externalId == null) ? 0 : externalId.hashCode());
         return result;
     }
 
@@ -92,10 +92,10 @@ public class ABAP_Transport extends Artifact {
             return false;
         if (transportType != other.transportType)
             return false;
-        if (external_id == null) {
-            if (other.external_id != null)
+        if (externalId == null) {
+            if (other.externalId != null)
                 return false;
-        } else if (!external_id.equals(other.external_id))
+        } else if (!externalId.equals(other.externalId))
             return false;
         return true;
     }
