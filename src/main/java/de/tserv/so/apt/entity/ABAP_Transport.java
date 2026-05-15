@@ -13,12 +13,12 @@ public class ABAP_Transport extends Artifact {
     private AssignmentType assignmentType; 
     private TransportType transportType; 
 
-    private Long externalId; 
+    private String externalId; 
 
     public ABAP_Transport() {}
 
     public ABAP_Transport(String description, Long versionId, DeploymentCategory deploymentCategory,
-            AssignmentType assignmentType, TransportType transportType, Long external_id) {
+            AssignmentType assignmentType, TransportType transportType, String external_id) {
         super(versionId, description);
         this.deploymentCategory = deploymentCategory;
         this.assignmentType = assignmentType;
@@ -50,11 +50,11 @@ public class ABAP_Transport extends Artifact {
         this.transportType = transportType;
     }
 
-    public Long getExternalId() {
+    public String getExternalId() {
         return externalId;
     }
 
-    public void setExternalId(Long external_id) {
+    public void setExternalId(String external_id) {
         this.externalId = external_id;
     }
 

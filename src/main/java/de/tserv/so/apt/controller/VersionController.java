@@ -45,8 +45,8 @@ public class VersionController {
     }
 
     @GetMapping("/versions/{id}/publish") 
-    void publishVersion(@PathVariable Long id) {
-        repository.findById(id)
+    Version publishVersion(@PathVariable Long id) {
+        return repository.findById(id)
             .map(version -> {
                 if (version.getStatus() == Status.IN_PROCESS) {
                     version.setDescription(version.getDescription());
@@ -54,15 +54,16 @@ public class VersionController {
                     version.setArtifacts(version.getArtifacts());
                     version.setVersion(version.getVersion());
                     version.setStatus(Status.RELEASED);
+                    return repository.save(version);
                 }
-                return repository.save(version);
+                return version;
             })
             .orElseThrow(() -> new ResourceNotFoundException(id, "versions"));
     }
 
     @GetMapping("/versions/{id}/return") 
-    void returnVersion(@PathVariable Long id) {
-        repository.findById(id)
+    Version returnVersion(@PathVariable Long id) {
+        return repository.findById(id)
             .map(version -> {
                 if (version.getStatus() == Status.IN_PROCESS) {
                     version.setStatus(Status.DEPRECATED);
@@ -70,8 +71,9 @@ public class VersionController {
                     version.setProduct(version.getProduct());
                     version.setArtifacts(version.getArtifacts());
                     version.setVersion(version.getVersion());
+                    return repository.save(version);
                 }; 
-                return repository.save(version);
+                return version;
             })
             .orElseThrow(() -> new ResourceNotFoundException(id, "versions"));
     }

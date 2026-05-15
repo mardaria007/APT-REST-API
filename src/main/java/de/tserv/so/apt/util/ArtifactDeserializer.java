@@ -23,7 +23,7 @@ public class ArtifactDeserializer extends ValueDeserializer<Artifact> {
             DeploymentCategory deploymentCategory = DeploymentCategory.valueOf(tree.get("deploymentCategory").stringValue());
             AssignmentType assignmentType = AssignmentType.valueOf(tree.get("assignmentType").stringValue());
             TransportType transportType = TransportType.valueOf(tree.get("transportType").stringValue());
-            Long externalId = tree.get("externalId").longValue();
+            String externalId = tree.get("externalId").stringValue();
 
             return new ABAP_Transport(description, version, deploymentCategory, assignmentType, transportType, externalId);
         }

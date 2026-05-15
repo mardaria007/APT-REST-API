@@ -1,0 +1,4 @@
+2026-05-06 11:56:24.125703+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabelle "PRODUCT" nicht gefunden (diese Datenbank ist leer)
+Table "PRODUCT" not found (this database is empty); SQL statement:
+INSERT INTO PRODUCT (PRODUCT_ID, PRODUCT_EXTERNAL_ID, PRODUCT_NAME) VALUES (1, 'TEST', 'TEST') [42104-240]

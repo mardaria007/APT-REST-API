@@ -31,7 +31,7 @@ public class ProductDeserializer  extends StdDeserializer<Product> {
             JsonNode versionsNode = node.get("versions"); 
             List<Long> versions = new ArrayList<>(); 
             versionsNode.forEach(version -> {
-                versions.add(version.asLong());
+                versions.add(version.get("id").asLong());
             });
 
             return new Product(productExternalId, productName, productLink, versions);
