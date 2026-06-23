@@ -1,0 +1,50 @@
+{
+  "xsappname": "productmanagementapi",
+  "tenant-mode": "dedicated",
+
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.admin",
+      "description": "Darf POST, PUT und DELETE aufrufen"
+    },
+    {
+      "name": "$XSAPPNAME.viewer",
+      "description": "Darf nur GET aufrufen"
+    }
+  ],
+
+  "role-templates": [
+    {
+      "name": "ProductManagementAdmin",
+      "description": "Vollzugriff auf die API",
+      "scope-references": [
+        "$XSAPPNAME.admin",
+        "$XSAPPNAME.viewer"
+      ]
+    },
+    {
+      "name": "ProductManagementViewer",
+      "description": "Nur lesender Zugriff",
+      "scope-references": [
+        "$XSAPPNAME.viewer"
+      ]
+    }
+  ],
+
+  "role-collections": [
+    {
+      "name": "ProductManagement-Admin",
+      "description": "Administratoren der Anwendung",
+      "role-template-references": [
+        "$XSAPPNAME.Admin"
+      ]
+    },
+    {
+      "name": "ProductManagement-Viewer",
+      "description": "Lesende Nutzer der Anwendung",
+      "role-template-references": [
+        "$XSAPPNAME.Viewer"
+      ]
+    }
+  ]
+}
