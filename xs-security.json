@@ -33,17 +33,17 @@
 
   "role-collections": [
     {
-      "name": "ProductManagement-Admin",
+      "name": "ProductManagement_Admin",
       "description": "Administratoren der Anwendung",
       "role-template-references": [
-        "$XSAPPNAME.Admin"
+        "$XSAPPNAME.ProductManagementAdmin"
       ]
     },
     {
-      "name": "ProductManagement-Viewer",
+      "name": "ProductManagement_Viewer",
       "description": "Lesende Nutzer der Anwendung",
       "role-template-references": [
-        "$XSAPPNAME.Viewer"
+        "$XSAPPNAME.ProductManagementViewer"
       ]
     }
   ]
