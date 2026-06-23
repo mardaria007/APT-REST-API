@@ -15,3 +15,19 @@ applications:
   services: 
   - tservag-solutions-dev-postgresql
   - tservag-solutions-pm-xsuaa-service
+- name: approuter
+  path: ./approuter
+  memory: 128M
+  buildpacks:
+    - nodejs_buildpack
+  env: 
+    destinations: >
+      [
+        {
+          "name": "destproductmanagementapi", 
+          "url": "https://productmanagementapi-sweet-leopard-sb.cfapps.eu10-005.hana.ondemand.com",
+          "forwardAuthToken": true
+        }
+      ]
+  services: 
+    - tservag-solutions-pm-xsuaa-service
