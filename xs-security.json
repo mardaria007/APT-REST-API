@@ -2,6 +2,14 @@
   "xsappname": "productmanagementapi",
   "tenant-mode": "dedicated",
 
+  "oauth2-configuration": {
+    "redirect-uris": [
+      "https://approuter.cfapps.eu10-005.hana.ondemand.com/**"
+    ],
+    "token-validity": 900,
+    "refresh-token-validity": 1800
+  },
+
   "scopes": [
     {
       "name": "$XSAPPNAME.admin",
