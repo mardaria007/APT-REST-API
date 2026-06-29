@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>de.tserv.so</groupId>
-	<artifactId>apt</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>apt</name>
-	<description>APT API</description>
+	<artifactId>productmanagementapi</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>productmanagementapi</name>
+	<description>Product Management API</description>
 	<url/>
 	<licenses>
 		<license/>

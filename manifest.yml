@@ -2,7 +2,7 @@
 applications: 
 - name: productmanagementapi
   random-route: true
-  path: ./target/apt-0.0.1-SNAPSHOT.jar
+  path: ./target/productmanagementapi-1.0.0-SNAPSHOT.jar
   memory: 1024M
   buildpacks: 
   - sap_java_buildpack_jakarta
@@ -27,7 +27,13 @@ applications:
           "name": "destproductmanagementapi", 
           "url": "https://productmanagementapi-sweet-leopard-sb.cfapps.eu10-005.hana.ondemand.com",
           "forwardAuthToken": true
+        },
+        {
+          "name": "destproductmanagement", 
+          "url": "https://solutions-dev-uywy8uiq.launchpad.cfapps.eu10.hana.ondemand.com",
+          "forwardAuthToken": false
         }
       ]
   services: 
     - tservag-solutions-pm-xsuaa-service
+    - tservag-solutions-pm-html5-rt

@@ -22,23 +22,23 @@ public class ProductController {
         this.repository = repository;
     }
 
-    @GetMapping("/products") 
+    @GetMapping("/api/products") 
     public List<Product> all() {
         return repository.findAll(); 
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/api/products/{id}")
     public Product one(@PathVariable Long id) {
         return repository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException(id, "products"));
     }
 
-    @PostMapping("/products") 
+    @PostMapping("/api/products") 
     Product newProduct(@RequestBody Product newProduct) {
         return repository.save(newProduct);
     }
 
-    @PutMapping("/products/{id}")
+    @PutMapping("/api/products/{id}")
     Product replaceProduct(@RequestBody Product newProduct, @PathVariable Long id) {
         return repository.findById(id)
             .map(product -> {
@@ -53,7 +53,7 @@ public class ProductController {
             });
     }
 
-    @DeleteMapping("/products/{id}")
+    @DeleteMapping("/api/products/{id}")
     void deleteProduct(@PathVariable Long id) {
         repository.deleteById(id);
     }

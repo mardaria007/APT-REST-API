@@ -4,7 +4,10 @@
 
   "oauth2-configuration": {
     "redirect-uris": [
-      "https://approuter.cfapps.eu10-005.hana.ondemand.com/**"
+      "https://approuter.cfapps.eu10-005.hana.ondemand.com/**",
+      "https://solutions-dev-uywy8uiq.launchpad.cfapps.eu10.hana.ondemand.com/**",
+      "https://productmanagementapi-sweet-leopard-sb.cfapps.eu10-005.hana.ondemand.com/**",
+      "https://solutions-dev-uywy8uiq.authentication.eu10.hana.ondemand.com/**"
     ],
     "token-validity": 900,
     "refresh-token-validity": 1800
