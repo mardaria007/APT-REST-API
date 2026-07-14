@@ -24,18 +24,18 @@ public class VersionController {
         this.repository = repository;
     }
 
-    @GetMapping("/api/versions") 
+    @GetMapping("/versions") 
     public List<Version> all() {
         return repository.findAll();
     }
 
-    @GetMapping("/api/versions/{id}")
+    @GetMapping("/versions/{id}")
     public Version one(@PathVariable Long id) {
         return repository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException(id, "versions"));
     }
 
-    @PostMapping("/api/versions") 
+    @PostMapping("/versions") 
     Version newVersion(@RequestBody Version newVersion) {
         if (newVersion.getProduct() == null) {
             throw new MissingReferenceException("Product");
@@ -44,7 +44,7 @@ public class VersionController {
         return repository.save(newVersion);
     }
 
-    @GetMapping("/api/versions/{id}/publish") 
+    @GetMapping("/versions/{id}/publish") 
     Version publishVersion(@PathVariable Long id) {
         return repository.findById(id)
             .map(version -> {
@@ -61,7 +61,7 @@ public class VersionController {
             .orElseThrow(() -> new ResourceNotFoundException(id, "versions"));
     }
 
-    @GetMapping("/api/versions/{id}/return") 
+    @GetMapping("/versions/{id}/return") 
     Version returnVersion(@PathVariable Long id) {
         return repository.findById(id)
             .map(version -> {
@@ -78,7 +78,7 @@ public class VersionController {
             .orElseThrow(() -> new ResourceNotFoundException(id, "versions"));
     }
 
-    @PutMapping("/api/versions/{id}")
+    @PutMapping("/versions/{id}")
     Version replaceVersion(@RequestBody Version newVersion, @PathVariable Long id) {
 
         if (newVersion.getProduct() == null) {
@@ -99,7 +99,7 @@ public class VersionController {
             });  
     }
 
-    @DeleteMapping("/api/versions/{id}")
+    @DeleteMapping("/versions/{id}")
     void deleteVersion(@PathVariable Long id) {
         repository.deleteById(id);
     }

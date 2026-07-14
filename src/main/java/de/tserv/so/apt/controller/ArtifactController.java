@@ -23,23 +23,23 @@ public class ArtifactController {
         this.repository = repository;
     }
 
-    @GetMapping("/api/artifacts")
+    @GetMapping("/artifacts")
     public List<Artifact> all() {
         return repository.findAll();
     }
 
-    @GetMapping("/api/artifacts/{id}")
+    @GetMapping("/artifacts/{id}")
     public Artifact one(@PathVariable Long id) {
         return repository.findById(id).
             orElseThrow(() -> new ResourceNotFoundException(id, "artifacts"));
     }
 
-    @PostMapping("/api/artifacts")
+    @PostMapping("/artifacts")
     Artifact newArtifact(@RequestBody Artifact newArtifact) {
         return repository.save(newArtifact);
     }
 
-    @PutMapping("/api/artifacts/{id}")
+    @PutMapping("/artifacts/{id}")
     Artifact replaceArtifact(@RequestBody Artifact newArtifact, @PathVariable Long id) {
         return repository.findById(id)
             .map(artifact -> {
@@ -61,7 +61,7 @@ public class ArtifactController {
             });
     }
 
-    @DeleteMapping("/api/artifacts/{id}")
+    @DeleteMapping("/artifacts/{id}")
     void deleteArtifact(@PathVariable Long id) {
         repository.deleteById(id);
     }
