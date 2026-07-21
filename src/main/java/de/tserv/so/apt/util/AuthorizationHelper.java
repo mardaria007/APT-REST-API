@@ -11,7 +11,6 @@ public class AuthorizationHelper {
         if (auth == null || !auth.isAuthenticated()) {
             return false; 
         }
-        return auth.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("admin"));
+        return auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("admin"));
     }
 }

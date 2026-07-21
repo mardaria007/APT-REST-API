@@ -1,6 +1,6 @@
 ---
 applications: 
-- name: productmanagementapi
+- name: tservag-solutions-pm-srv
   random-route: true
   path: ./target/productmanagementapi-1.0.0-SNAPSHOT.jar
   memory: 1024M

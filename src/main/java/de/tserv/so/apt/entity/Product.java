@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import de.tserv.so.apt.SpringConfiguration;
 import de.tserv.so.apt.db.VersionRepository;
 import de.tserv.so.apt.util.ProductDeserializer;
+import de.tserv.so.apt.util.ProductSerializer;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,10 +17,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name = "product")
 @JsonDeserialize(using = ProductDeserializer.class)
+@JsonSerialize(using = ProductSerializer.class)
 public class Product {
     private @Id
     @Column(name = "product_id")
