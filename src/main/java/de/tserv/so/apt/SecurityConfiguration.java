@@ -36,19 +36,20 @@ public class SecurityConfiguration {
             )
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers(HttpMethod.POST,   "/products/**").hasAnyAuthority("admin")
-                .requestMatchers(HttpMethod.PUT,   "/products/**").hasAnyAuthority("admin")
-                .requestMatchers(HttpMethod.DELETE,   "/products/**").hasAnyAuthority("admin")
+                .requestMatchers(HttpMethod.POST,   "/products/**").hasRole("admin")
+                .requestMatchers(HttpMethod.PUT,   "/products/**").hasRole("admin")
+                .requestMatchers(HttpMethod.DELETE,   "/products/**").hasRole("admin")
 
-                .requestMatchers(HttpMethod.POST,   "/versions/**").hasAnyAuthority("admin")
-                .requestMatchers(HttpMethod.PUT,   "/versions/**").hasAnyAuthority("admin")
-                .requestMatchers(HttpMethod.DELETE,   "/versions/**").hasAnyAuthority("admin")
+                .requestMatchers(HttpMethod.POST,   "/versions/**").hasRole("admin")
+                .requestMatchers(HttpMethod.PUT,   "/versions/**").hasRole("admin")
+                .requestMatchers(HttpMethod.DELETE,   "/versions/**").hasRole("admin")
 
-                .requestMatchers(HttpMethod.POST,   "/artifacts/**").hasAnyAuthority("admin")
-                .requestMatchers(HttpMethod.PUT,   "/artifacts/**").hasAnyAuthority("admin")
-                .requestMatchers(HttpMethod.DELETE,   "/artifacts/**").hasAnyAuthority("admin")
+                .requestMatchers(HttpMethod.POST,   "/artifacts/**").hasRole("admin")
+                .requestMatchers(HttpMethod.PUT,   "/artifacts/**").hasRole("admin")
+                .requestMatchers(HttpMethod.DELETE,   "/artifacts/**").hasRole("admin")
 
                 .requestMatchers(HttpMethod.GET,    "/**").authenticated()
+                .requestMatchers(HttpMethod.OPTIONS,    "/**").authenticated()
                 .anyRequest().denyAll()
             )
 

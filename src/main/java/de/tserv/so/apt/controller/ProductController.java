@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.tserv.so.apt.db.ProductRepository;
 import de.tserv.so.apt.entity.Product;
+import de.tserv.so.apt.entity.Products;
 import de.tserv.so.apt.exceptions.ResourceNotFoundException;
+import de.tserv.so.apt.util.AuthorizationHelper;
 
 @RestController
 public class ProductController {
@@ -23,8 +25,12 @@ public class ProductController {
     }
 
     @GetMapping("/products") 
-    public List<Product> all() {
-        return repository.findAll(); 
+    public Products all() {
+        AuthorizationHelper authHelper = new AuthorizationHelper(); 
+        List<Product> products = repository.findAll(); 
+        Products p = new Products(products, authHelper.isAdmin());
+
+        return p;
     }
 
     @GetMapping("/products/{id}")
