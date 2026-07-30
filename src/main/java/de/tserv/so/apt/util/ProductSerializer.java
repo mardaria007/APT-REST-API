@@ -29,6 +29,7 @@ public class ProductSerializer extends StdSerializer<Product> {
         gen.writeStartObject();
         gen.writeNumberProperty("id", value.getId());
         gen.writeStringProperty("productExternalId", value.getProductExternalId());
+        gen.writeStringProperty("productName", value.getProductName());
         gen.writeStringProperty("productLink", value.getProductLink());
         
         gen.writeArrayPropertyStart("versions");
